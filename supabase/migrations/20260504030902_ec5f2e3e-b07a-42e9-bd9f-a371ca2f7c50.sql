@@ -1,0 +1,1 @@
+ALTER TABLE public.bid_items ADD COLUMN IF NOT EXISTS categoria text NOT NULL DEFAULT '';

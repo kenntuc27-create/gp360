@@ -1,0 +1,26 @@
+{
+  "name": "Gestão Pará",
+  "short_name": "Gestão Pará",
+  "description": "Sistema de automação de cotações para licitações.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#ffffff",
+  "theme_color": "#1e3a6f",
+  "lang": "pt-BR",
+  "icons": [
+    {
+      "src": "/logo-empreendimentos.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo-empreendimentos.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

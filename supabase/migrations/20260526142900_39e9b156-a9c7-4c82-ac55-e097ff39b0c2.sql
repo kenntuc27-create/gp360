@@ -1,0 +1,6 @@
+ALTER TABLE public.bids
+  ADD COLUMN IF NOT EXISTS orgao_pagador TEXT,
+  ADD COLUMN IF NOT EXISTS endereco_orgao TEXT,
+  ADD COLUMN IF NOT EXISTS cidade_orgao TEXT,
+  ADD COLUMN IF NOT EXISTS estado_orgao TEXT,
+  ADD COLUMN IF NOT EXISTS prazo_pagamento TEXT;

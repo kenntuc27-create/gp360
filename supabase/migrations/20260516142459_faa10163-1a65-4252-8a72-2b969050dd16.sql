@@ -1,0 +1,2 @@
+ALTER TABLE public.suppliers ADD COLUMN IF NOT EXISTS segment_id UUID REFERENCES public.segments(id) ON DELETE SET NULL;
+CREATE INDEX IF NOT EXISTS idx_suppliers_segment_id ON public.suppliers(segment_id);

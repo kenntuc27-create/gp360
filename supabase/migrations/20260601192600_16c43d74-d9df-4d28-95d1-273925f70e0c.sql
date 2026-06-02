@@ -1,0 +1,1 @@
+ALTER TABLE public.bid_supplier_responses ADD COLUMN IF NOT EXISTS freight_value numeric NOT NULL DEFAULT 0;

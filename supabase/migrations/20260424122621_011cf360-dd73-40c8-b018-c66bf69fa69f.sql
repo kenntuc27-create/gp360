@@ -1,0 +1,1 @@
+ALTER TABLE public.bids ADD COLUMN IF NOT EXISTS tipo_cotacao text NOT NULL DEFAULT 'empreendimentos';
