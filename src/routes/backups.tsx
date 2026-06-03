@@ -72,7 +72,7 @@ function BackupsPage() {
 
             }
           }}
-          className="mt-4 border rounded px-4 py-2"
+          className="mt-4 border rounded px-4 py-2 cursor-pointer hover:opacity-80 transition-all"
         >
           Criar Snapshot
         </button>
@@ -131,7 +131,7 @@ function BackupsPage() {
 
     <button
       disabled={!snapshotSelecionado}
-      className="mt-4 border rounded px-4 py-2"
+      className="mt-4 border rounded px-4 py-2 cursor-pointer hover:opacity-80 transition-all"
     >
       Restaurar Selecionado
     </button>
@@ -195,7 +195,7 @@ function BackupsPage() {
                   <a
                     href={"/backups/snapshots/" + b.nome}
                     target="_blank"
-                    className="border rounded px-3 py-1"
+                    className="border rounded px-3 py-1 cursor-pointer hover:opacity-80 transition-all"
                   >
                     Download
                   </a>
@@ -238,6 +238,8 @@ function BackupsPage() {
     </AppShell>
   );
 }
+
+
 
 
 
