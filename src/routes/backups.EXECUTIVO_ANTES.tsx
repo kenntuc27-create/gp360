@@ -3,13 +3,12 @@ import { createFileRoute } from "@tanstack/react-router";
 import {
   listarBackups,
   criarSnapshot,
-  criarSnapshotGit,
   excluirBackup,
   listarTagsGit
 } from "@/lib/backups.functions";
 import { useEffect, useState } from "react";
 
-export const Route = createFileRoute("/backups")({
+export const Route = createFileRoute("/backups/EXECUTIVO_ANTES")({
   component: BackupsPage,
 });
 
@@ -53,11 +52,7 @@ function BackupsPage() {
 
             try {
 
-              await criarSnapshotGit();
               await criarSnapshot();
-
-              const tags = await listarTagsGit();
-              setTagsGit(tags || []);
 
               const dados = await listarBackups();
               setBackups(dados || []);
@@ -216,4 +211,3 @@ function BackupsPage() {
     </AppShell>
   );
 }
-

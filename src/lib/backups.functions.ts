@@ -1,11 +1,11 @@
 ﻿import { createServerFn } from "@tanstack/react-start";
 import fs from "fs";
 import path from "path";
+import { execFileSync, execSync } from "child_process";
 
 export const listarBackups = createServerFn({
   method: "GET",
 }).handler(async () => {
-
   const dir = "C:/GP3K/backups/snapshots";
 
   if (!fs.existsSync(dir)) return [];
@@ -27,7 +27,7 @@ export const listarBackups = createServerFn({
 export const criarSnapshot = createServerFn({
   method: "POST",
 }).handler(async () => {
-
+  const root = "C:/GP3K";
   const dir = "C:/GP3K/backups/snapshots";
 
   if (!fs.existsSync(dir)) {
@@ -38,20 +38,30 @@ export const criarSnapshot = createServerFn({
 
   const nome =
     agora.getFullYear() + "-" +
-    String(agora.getMonth()+1).padStart(2,"0") + "-" +
-    String(agora.getDate()).padStart(2,"0") + "_" +
-    String(agora.getHours()).padStart(2,"0") + "-" +
-    String(agora.getMinutes()).padStart(2,"0") + "-" +
-    String(agora.getSeconds()).padStart(2,"0") + ".zip";
+    String(agora.getMonth() + 1).padStart(2, "0") + "-" +
+    String(agora.getDate()).padStart(2, "0") + "_" +
+    String(agora.getHours()).padStart(2, "0") + "-" +
+    String(agora.getMinutes()).padStart(2, "0") + "-" +
+    String(agora.getSeconds()).padStart(2, "0") + ".zip";
 
   const destino = path.join(dir, nome);
 
-  fs.writeFileSync(
-    destino,
-    JSON.stringify({
-      data: new Date().toISOString(),
-      projeto: "GP360"
-    }, null, 2)
+  execFileSync(
+    "tar",
+    [
+      "-a",
+      "-c",
+      "-f",
+      destino,
+      "-C",
+      root,
+      "src",
+      "public",
+      "package.json",
+      "vite.config.ts",
+      "tsconfig.json",
+    ],
+    { stdio: "pipe" }
   );
 
   return {
@@ -63,7 +73,6 @@ export const criarSnapshot = createServerFn({
 export const excluirBackup = createServerFn({
   method: "POST",
 }).handler(async ({ data }: any) => {
-
   const dir = "C:/GP3K/backups/snapshots";
   const arquivo = path.join(dir, data.nome);
 
@@ -73,3 +82,83 @@ export const excluirBackup = createServerFn({
 
   return { ok: true };
 });
+
+export const listarTagsGit = createServerFn({
+  method: "GET",
+}).handler(async () => {
+  try {
+    const tags = execSync(
+      "git tag --sort=-creatordate",
+      {
+        encoding: "utf8",
+        cwd: "C:/GP3K",
+      }
+    )
+      .split(/\r?\n/)
+      .filter(Boolean);
+
+    return tags;
+  } catch {
+    return [];
+  }
+});
+
+export const criarSnapshotGit = createServerFn({
+  method: "POST",
+}).handler(async () => {
+
+  const snap =
+    "SNAPSHOT_" +
+    new Date()
+      .toISOString()
+      .replace(/[-:]/g,"")
+      .replace("T","_")
+      .substring(0,15);
+
+  execSync("git add .", {
+    cwd: "C:/GP3K",
+    stdio: "pipe"
+  });
+
+  try {
+
+    execSync(
+      `git commit -m "${snap}"`,
+      {
+        cwd: "C:/GP3K",
+        stdio: "pipe"
+      }
+    );
+
+  } catch {}
+
+  execSync(
+    "git push origin main",
+    {
+      cwd: "C:/GP3K",
+      stdio: "pipe"
+    }
+  );
+
+  execSync(
+    `git tag ${snap}`,
+    {
+      cwd: "C:/GP3K",
+      stdio: "pipe"
+    }
+  );
+
+  execSync(
+    `git push origin ${snap}`,
+    {
+      cwd: "C:/GP3K",
+      stdio: "pipe"
+    }
+  );
+
+  return {
+    ok: true,
+    snapshot: snap
+  };
+});
+
