@@ -82,7 +82,7 @@ function LoginPage() {
       <Card className="w-full max-w-sm">
         <CardHeader className="text-center space-y-3">
           <div className="bg-white p-4 rounded-xl shadow-sm border border-muted/50 inline-block mx-auto">
-            <img src={logo} alt="Grupo Pará" className="h-14 mx-auto object-contain" />
+            <img src={logo} alt="3K SISTEMAS" className="h-14 mx-auto object-contain" />
           </div>
           <CardTitle className="text-xl font-bold">Acesso ao Sistema</CardTitle>
           <p className="text-sm text-muted-foreground">Utilize seu nome de usuário operacional</p>

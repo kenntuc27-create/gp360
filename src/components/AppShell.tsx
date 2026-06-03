@@ -153,7 +153,7 @@ export function AppShell({ children, title, actions }: { children: ReactNode; ti
       id: "config",
       label: "Configurações",
       items: [
-        { to: "/configuracoes", label: "Empresas e Metas", icon: Building2 },
+        { to: "/configuracoes", label: "Dados da Empresa", icon: Building2 },
       ],
     });
   }
@@ -217,8 +217,8 @@ export function AppShell({ children, title, actions }: { children: ReactNode; ti
     <div className="flex min-h-screen bg-background">
       {sidebarOpen && (
         <aside className={cn("hidden md:flex flex-col bg-sidebar text-sidebar-foreground border-r border-sidebar-border transition-[width] duration-200", sidebarWidth)}>
-          <div className={cn("border-b border-sidebar-border bg-white/95 flex items-center justify-center", sidebarCollapsed ? "py-3 px-1" : "px-4 py-4")}>
-            <img src={logo} alt="Grupo Pará" className={cn("object-contain", sidebarCollapsed ? "h-8" : "w-full h-16")} />
+          <div className={cn("border-b border-sidebar-border bg-white/95 flex items-center justify-center", sidebarCollapsed ? "py-1 px-1" : "px-2 py-1")}>
+            <img src={logo}alt="3K SISTEMAS"className={cn("object-contain object-center",sidebarCollapsed ? "h-8" : "max-w-[140px] h-auto")}/>
           </div>
           <NavList collapsed={sidebarCollapsed} />
           <SidebarFooter collapsed={sidebarCollapsed} />
@@ -235,8 +235,8 @@ export function AppShell({ children, title, actions }: { children: ReactNode; ti
                 </Button>
               </SheetTrigger>
               <SheetContent side="left" className="p-0 w-[280px] bg-sidebar text-sidebar-foreground border-sidebar-border flex flex-col">
-                <div className="px-4 py-4 border-b border-sidebar-border bg-white/95">
-                  <img src={logo} alt="Grupo Pará" className="w-full h-14 object-contain" />
+                <div className="px-2 py-1 border-b border-sidebar-border bg-white/95">
+                  <img src={logo}alt="3K SISTEMAS"className="w-full h-18 object-contain px-2"/>
                 </div>
                 <NavList onNavigate={() => setMobileOpen(false)} />
                 <SidebarFooter />

@@ -67,7 +67,36 @@ function Configuracoes() {
         </Card>
 
         <Card>
-          <CardHeader><CardTitle className="text-base">Identidade Visual</CardTitle></CardHeader>
+          <CardHeader>
+            <CardTitle className="text-base">Identidade Visual</CardTitle>
+            </CardHeader>
+            <CardHeader>
+  <CardTitle className="text-base">Tema do Sistema</CardTitle>
+</CardHeader>
+
+<CardContent>
+  <div className="flex gap-2">
+    <Button
+      variant="outline"
+      onClick={() => {
+        localStorage.setItem("theme", "light");
+        document.documentElement.classList.remove("dark");
+      }}
+    >
+      ☀️ Claro
+    </Button>
+
+    <Button
+      variant="outline"
+      onClick={() => {
+        localStorage.setItem("theme", "dark");
+        document.documentElement.classList.add("dark");
+      }}
+    >
+      🌙 Escuro
+    </Button>
+  </div>
+</CardContent>
           <CardContent className="space-y-4">
             <div>
               <Label>Logo</Label>

@@ -1,4 +1,5 @@
 import { Outlet, Link, createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
+import { useEffect } from "react";
 import { Toaster } from "@/components/ui/sonner";
 import { AuthProvider } from "@/hooks/useAuth";
 
@@ -25,12 +26,12 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Gestão Pará" },
+      { title: "3K Sistemas" },
       { name: "description", content: "Sistema profissional para automação de cotações em licitações." },
       { name: "theme-color", content: "#1e3a6f" },
       { name: "apple-mobile-web-app-capable", content: "yes" },
       { name: "apple-mobile-web-app-status-bar-style", content: "default" },
-      { name: "apple-mobile-web-app-title", content: "Gestão Pará" },
+      { name: "apple-mobile-web-app-title", content: "3K Sistemas" },
       { property: "og:title", content: "Gestão Pará" },
       { name: "twitter:title", content: "Gestão Pará" },
       { property: "og:description", content: "Sistema profissional para automação de cotações em licitações." },
@@ -43,8 +44,8 @@ export const Route = createRootRoute({
     links: [
       { rel: "stylesheet", href: appCss },
       { rel: "manifest", href: "/manifest.webmanifest" },
-      { rel: "apple-touch-icon", href: "/logo-empreendimentos.png" },
-      { rel: "icon", type: "image/png", href: "/logo-empreendimentos.png" },
+      { rel: "apple-touch-icon", href: "/favicon.png" },
+      { rel: "icon", type: "image/png", href: "/favicon.png" },
     ],
   }),
   component: () => (
@@ -59,10 +60,22 @@ export const Route = createRootRoute({
 });
 
 function RootShell({ children }: { children: React.ReactNode }) {
+
+  useEffect(() => {
+    console.log("DARK EXECUTADO");
+    document.documentElement.classList.add("dark");
+  }, []);
+
   return (
     <html lang="pt-BR">
-      <head><HeadContent /></head>
-      <body>{children}<Scripts /></body>
+      <head>
+        <HeadContent />
+      </head>
+
+      <body>
+        {children}
+        <Scripts />
+      </body>
     </html>
   );
 }
