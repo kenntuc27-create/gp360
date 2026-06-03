@@ -13,9 +13,11 @@ import { Route as UsuariosRouteImport } from './routes/usuarios'
 import { Route as TrocarSenhaRouteImport } from './routes/trocar-senha'
 import { Route as NovoRouteImport } from './routes/novo'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as IaGp360RouteImport } from './routes/ia-gp360'
 import { Route as HistoricoRouteImport } from './routes/historico'
 import { Route as FornecedoresRouteImport } from './routes/fornecedores'
 import { Route as ConfiguracoesRouteImport } from './routes/configuracoes'
+import { Route as BackupsRouteImport } from './routes/backups'
 import { Route as AuditoriaRouteImport } from './routes/auditoria'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PosEntregaIndexRouteImport } from './routes/pos-entrega.index'
@@ -63,6 +65,11 @@ const LoginRoute = LoginRouteImport.update({
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const IaGp360Route = IaGp360RouteImport.update({
+  id: '/ia-gp360',
+  path: '/ia-gp360',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const HistoricoRoute = HistoricoRouteImport.update({
   id: '/historico',
   path: '/historico',
@@ -76,6 +83,11 @@ const FornecedoresRoute = FornecedoresRouteImport.update({
 const ConfiguracoesRoute = ConfiguracoesRouteImport.update({
   id: '/configuracoes',
   path: '/configuracoes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BackupsRoute = BackupsRouteImport.update({
+  id: '/backups',
+  path: '/backups',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuditoriaRoute = AuditoriaRouteImport.update({
@@ -213,9 +225,11 @@ const ApiPublicHooksProductionAlertsRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auditoria': typeof AuditoriaRoute
+  '/backups': typeof BackupsRoute
   '/configuracoes': typeof ConfiguracoesRoute
   '/fornecedores': typeof FornecedoresRoute
   '/historico': typeof HistoricoRoute
+  '/ia-gp360': typeof IaGp360Route
   '/login': typeof LoginRoute
   '/novo': typeof NovoRoute
   '/trocar-senha': typeof TrocarSenhaRoute
@@ -248,9 +262,11 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auditoria': typeof AuditoriaRoute
+  '/backups': typeof BackupsRoute
   '/configuracoes': typeof ConfiguracoesRoute
   '/fornecedores': typeof FornecedoresRoute
   '/historico': typeof HistoricoRoute
+  '/ia-gp360': typeof IaGp360Route
   '/login': typeof LoginRoute
   '/novo': typeof NovoRoute
   '/trocar-senha': typeof TrocarSenhaRoute
@@ -283,9 +299,11 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/auditoria': typeof AuditoriaRoute
+  '/backups': typeof BackupsRoute
   '/configuracoes': typeof ConfiguracoesRoute
   '/fornecedores': typeof FornecedoresRoute
   '/historico': typeof HistoricoRoute
+  '/ia-gp360': typeof IaGp360Route
   '/login': typeof LoginRoute
   '/novo': typeof NovoRoute
   '/trocar-senha': typeof TrocarSenhaRoute
@@ -320,9 +338,11 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/auditoria'
+    | '/backups'
     | '/configuracoes'
     | '/fornecedores'
     | '/historico'
+    | '/ia-gp360'
     | '/login'
     | '/novo'
     | '/trocar-senha'
@@ -355,9 +375,11 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auditoria'
+    | '/backups'
     | '/configuracoes'
     | '/fornecedores'
     | '/historico'
+    | '/ia-gp360'
     | '/login'
     | '/novo'
     | '/trocar-senha'
@@ -389,9 +411,11 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/auditoria'
+    | '/backups'
     | '/configuracoes'
     | '/fornecedores'
     | '/historico'
+    | '/ia-gp360'
     | '/login'
     | '/novo'
     | '/trocar-senha'
@@ -425,9 +449,11 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuditoriaRoute: typeof AuditoriaRoute
+  BackupsRoute: typeof BackupsRoute
   ConfiguracoesRoute: typeof ConfiguracoesRoute
   FornecedoresRoute: typeof FornecedoresRoute
   HistoricoRoute: typeof HistoricoRoute
+  IaGp360Route: typeof IaGp360Route
   LoginRoute: typeof LoginRoute
   NovoRoute: typeof NovoRoute
   TrocarSenhaRoute: typeof TrocarSenhaRoute
@@ -483,6 +509,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/ia-gp360': {
+      id: '/ia-gp360'
+      path: '/ia-gp360'
+      fullPath: '/ia-gp360'
+      preLoaderRoute: typeof IaGp360RouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/historico': {
       id: '/historico'
       path: '/historico'
@@ -502,6 +535,13 @@ declare module '@tanstack/react-router' {
       path: '/configuracoes'
       fullPath: '/configuracoes'
       preLoaderRoute: typeof ConfiguracoesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/backups': {
+      id: '/backups'
+      path: '/backups'
+      fullPath: '/backups'
+      preLoaderRoute: typeof BackupsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auditoria': {
@@ -722,9 +762,11 @@ const EquipeAtasRouteWithChildren = EquipeAtasRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuditoriaRoute: AuditoriaRoute,
+  BackupsRoute: BackupsRoute,
   ConfiguracoesRoute: ConfiguracoesRoute,
   FornecedoresRoute: FornecedoresRoute,
   HistoricoRoute: HistoricoRoute,
+  IaGp360Route: IaGp360Route,
   LoginRoute: LoginRoute,
   NovoRoute: NovoRoute,
   TrocarSenhaRoute: TrocarSenhaRoute,

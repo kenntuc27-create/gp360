@@ -33,6 +33,9 @@ export function AppShell({ children, title, actions }: { children: ReactNode; ti
   const navigate = useNavigate();
   const router = useRouter();
   const { user, loading, isAdmin, signOut, roles, hasOperationalAccess, sectorName } = useAuth();
+  console.log("hasOperationalAccess =", hasOperationalAccess);
+console.log("roles =", roles);
+console.log("isAdmin =", isAdmin);
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(() => {
     if (typeof window === "undefined") return true;
     return window.localStorage.getItem("sidebar:open") !== "0";
@@ -93,26 +96,16 @@ export function AppShell({ children, title, actions }: { children: ReactNode; ti
   }
 
   const groups: NavGroup[] = [];
-
-  if (hasOperationalAccess) {
-    groups.push({
-      id: "dashboard",
-      label: "Dashboard",
-      items: [
-        { to: "/", label: "Visão Geral", icon: LayoutDashboard, exact: true },
-      ],
-    });
-    groups.push({
-      id: "licitacoes",
-      label: "Licitações",
-      items: [
-        { to: "/central", label: "Central de Cotação", icon: Calculator },
-        { to: "/historico", label: "Histórico", icon: History },
-        { to: "/fornecedores", label: "Fornecedores", icon: Users },
-        { to: "/pos-entrega", label: "Pós-Entrega", icon: FileCheck },
-      ],
-    });
-  }
+groups.push({
+  id: "licitacoes",
+  label: "Licitações",
+  items: [
+    { to: "/central", label: "Central de Cotação", icon: Calculator },
+    { to: "/historico", label: "Histórico", icon: History },
+    { to: "/fornecedores", label: "Fornecedores", icon: Users },
+    { to: "/pos-entrega", label: "Pós-Entrega", icon: FileCheck },
+  ],
+});
 
   groups.push({
     id: "performance",
@@ -149,14 +142,16 @@ export function AppShell({ children, title, actions }: { children: ReactNode; ti
   groups.push({ id: "equipe", label: "Equipe", items: equipeItems });
 
   if (hasOperationalAccess) {
-    groups.push({
-      id: "config",
-      label: "Configurações",
-      items: [
-        { to: "/configuracoes", label: "Dados da Empresa", icon: Building2 },
-      ],
-    });
-  }
+  groups.push({
+    id: "config",
+    label: "Configurações",
+    items: [
+      { to: "/configuracoes", label: "Dados da Empresa", icon: Building2 },
+      { to: "/backups", label: "Backups", icon: History },
+      { to: "/ia-gp360", label: "IA GP360", icon: ShieldCheck },
+    ],
+  });
+}  
 
   const userLabel = user.user_metadata?.full_name || user.email || "Usuário";
   const roleLabel = isAdmin
