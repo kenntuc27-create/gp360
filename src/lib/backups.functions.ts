@@ -162,3 +162,25 @@ export const criarSnapshotGit = createServerFn({
   };
 });
 
+
+export const restaurarSnapshotGit = createServerFn({
+  method: "POST",
+}).handler(async ({ data }: any) => {
+
+  if (!data?.tag) {
+    throw new Error("TAG não informada");
+  }
+
+  execSync(
+    `git checkout ${data.tag}`,
+    {
+      cwd: "C:/GP3K",
+      stdio: "pipe"
+    }
+  );
+
+  return {
+    ok: true,
+    tag: data.tag
+  };
+});
