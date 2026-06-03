@@ -3,6 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import {
   listarBackups,
   criarSnapshot,
+  criarSnapshotGit,
   excluirBackup,
   listarTagsGit
 } from "@/lib/backups.functions";
@@ -16,6 +17,7 @@ function BackupsPage() {
 
   const [backups, setBackups] = useState<any[]>([]);
   const [tagsGit, setTagsGit] = useState<string[]>([]);
+  const [snapshotSelecionado, setSnapshotSelecionado] = useState("");
 
   useEffect(() => {
 
@@ -52,7 +54,8 @@ function BackupsPage() {
 
             try {
 
-              await criarSnapshot();
+              await criarSnapshotGit();
+await criarSnapshot();
 
               const dados = await listarBackups();
               setBackups(dados || []);
@@ -113,21 +116,42 @@ function BackupsPage() {
 
           <div className="space-y-3">
 
+  <div className="border rounded-xl p-4 mb-4 bg-muted/20">
+
+    <div className="text-sm opacity-70">
+      Snapshot Selecionado
+    </div>
+
+    <div className="text-lg font-semibold mt-2">
+      {snapshotSelecionado || "Nenhum snapshot selecionado"}
+    </div>
+
+    <button
+      disabled={!snapshotSelecionado}
+      className="mt-4 border rounded px-4 py-2"
+    >
+      Restaurar Selecionado
+    </button>
+
+  </div>
+
             {tagsGit.map((tag, i) => (
 
               <div
                 key={i}
                 className="border rounded-xl p-4 flex items-center justify-between"
               >
-                <div>
-                  {tag}
+                <div className="flex items-center gap-3">
+                  <input
+                    type="radio"
+                    name="snapshotGit"
+                    checked={snapshotSelecionado === tag}
+                    onChange={() => setSnapshotSelecionado(tag)}
+                  />
+                  <span>{tag}</span>
                 </div>
 
-                <button
-                  className="border rounded px-3 py-1"
-                >
-                  Restaurar
-                </button>
+
 
               </div>
 
@@ -211,3 +235,9 @@ function BackupsPage() {
     </AppShell>
   );
 }
+
+
+
+
+
+
