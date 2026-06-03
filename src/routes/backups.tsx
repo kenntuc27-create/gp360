@@ -56,6 +56,8 @@ function BackupsPage() {
 
             setProcessando(true);
 
+            await new Promise(r => setTimeout(r, 100));
+
             try {
 
               await criarSnapshotGit();
@@ -223,5 +225,6 @@ function BackupsPage() {
     </AppShell>
   );
 }
+
 
 
