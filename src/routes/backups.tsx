@@ -17,6 +17,7 @@ function BackupsPage() {
 
   const [backups, setBackups] = useState<any[]>([]);
   const [tagsGit, setTagsGit] = useState<string[]>([]);
+  const [processando, setProcessando] = useState(false);
 
   useEffect(() => {
 
@@ -51,6 +52,10 @@ function BackupsPage() {
         <button
           onClick={async () => {
 
+            if (processando) return;
+
+            setProcessando(true);
+
             try {
 
               await criarSnapshotGit();
@@ -63,15 +68,17 @@ function BackupsPage() {
               setBackups(dados || []);
 
               alert("Snapshot criado com sucesso");
+              setProcessando(false);
 
             } catch (e:any) {
 
               console.error(e);
               alert("Erro ao criar snapshot");
+                setProcessando(false);
 
             }
           }}
-          className="mt-4 border rounded px-4 py-2"
+          className="mt-4 border rounded px-4 py-2 cursor-pointer"
         >
           Criar Snapshot
         </button>
@@ -216,4 +223,5 @@ function BackupsPage() {
     </AppShell>
   );
 }
+
 
