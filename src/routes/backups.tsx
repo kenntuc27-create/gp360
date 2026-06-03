@@ -55,7 +55,10 @@ function BackupsPage() {
             try {
 
               await criarSnapshotGit();
-await criarSnapshot();
+              await criarSnapshot();
+
+              const tags = await listarTagsGit();
+              setTagsGit(tags || []);
 
               const dados = await listarBackups();
               setBackups(dados || []);
@@ -235,6 +238,7 @@ await criarSnapshot();
     </AppShell>
   );
 }
+
 
 
 
