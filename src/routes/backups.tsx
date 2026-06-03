@@ -3,7 +3,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import {
   listarBackups,
   criarSnapshot,
-  criarSnapshotGit,
   excluirBackup,
   listarTagsGit
 } from "@/lib/backups.functions";
@@ -17,8 +16,6 @@ function BackupsPage() {
 
   const [backups, setBackups] = useState<any[]>([]);
   const [tagsGit, setTagsGit] = useState<string[]>([]);
-  const [processando, setProcessando] = useState(false);
-  const [statusSnapshot, setStatusSnapshot] = useState("Pronto");
 
   useEffect(() => {
 
@@ -50,52 +47,26 @@ function BackupsPage() {
           Central de snapshots e restauração
         </p>
 
-        <div className="mt-4 border rounded-xl p-4 bg-muted/30">
-          <div className="text-sm opacity-70">Status do Snapshot</div>
-          <div className="text-lg font-semibold mt-1">
-            {processando ? "🟡 " : "🟢 "}{statusSnapshot}
-          </div>
-        </div>
-
         <button
           onClick={async () => {
 
-            if (processando) return;
-
-            setProcessando(true);
-            setStatusSnapshot("Criando Snapshot GitHub...");
-
-            await new Promise(r => setTimeout(r, 100));
-
             try {
 
-              await criarSnapshotGit();
-
-              setStatusSnapshot("Criando Backup Local...");
               await criarSnapshot();
-
-              setStatusSnapshot("Atualizando Painel...");
-
-              const tags = await listarTagsGit();
-              setTagsGit(tags || []);
 
               const dados = await listarBackups();
               setBackups(dados || []);
 
-              setStatusSnapshot("Snapshot concluído");
               alert("Snapshot criado com sucesso");
-              setProcessando(false);
 
             } catch (e:any) {
 
               console.error(e);
-              setStatusSnapshot("Erro ao criar snapshot");
-                alert("Erro ao criar snapshot");
-                setProcessando(false);
+              alert("Erro ao criar snapshot");
 
             }
           }}
-          className="mt-4 border rounded px-4 py-2 cursor-pointer"
+          className="mt-4 border rounded px-4 py-2"
         >
           Criar Snapshot
         </button>
@@ -152,14 +123,7 @@ function BackupsPage() {
                   {tag}
                 </div>
 
-                <div className="mt-4 border rounded-xl p-4 bg-muted/30">
-          <div className="text-sm opacity-70">Status do Snapshot</div>
-          <div className="text-lg font-semibold mt-1">
-            {processando ? "🟡 " : "🟢 "}{statusSnapshot}
-          </div>
-        </div>
-
-        <button
+                <button
                   className="border rounded px-3 py-1"
                 >
                   Restaurar
@@ -209,14 +173,7 @@ function BackupsPage() {
                     Download
                   </a>
 
-                  <div className="mt-4 border rounded-xl p-4 bg-muted/30">
-          <div className="text-sm opacity-70">Status do Snapshot</div>
-          <div className="text-lg font-semibold mt-1">
-            {processando ? "🟡 " : "🟢 "}{statusSnapshot}
-          </div>
-        </div>
-
-        <button
+                  <button
                     onClick={async () => {
 
                       if (!confirm(`Excluir ${b.nome}?`))
@@ -254,7 +211,3 @@ function BackupsPage() {
     </AppShell>
   );
 }
-
-
-
-
