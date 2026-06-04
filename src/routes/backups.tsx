@@ -133,6 +133,49 @@ function BackupsPage() {
     <button
       disabled={!snapshotSelecionado}
       className="mt-4 border rounded px-4 py-2 cursor-pointer hover:opacity-80 transition-all"
+      onClick={async () => {
+
+        if(!snapshotSelecionado){
+          alert("Selecione um snapshot");
+          return;
+        }
+
+        const ok = confirm(
+          "CONFIRMAR RESTAURAÇÃO?\n\n" +
+          "Snapshot:\n" +
+          snapshotSelecionado +
+          "\n\nSerá criado um backup automático antes da restauração."
+        );
+
+        if(!ok) return;
+
+        try{
+
+          await criarSnapshotGit();
+          await criarSnapshot();
+
+          await restaurarSnapshotGit({
+            data:{
+              tag:snapshotSelecionado
+            }
+          });
+
+          alert(
+            "Restauração concluída:\n\n" +
+            snapshotSelecionado
+          );
+
+        }catch(e:any){
+
+          console.error(e);
+
+          alert(
+            "Erro na restauração:\n\n" +
+            (e?.message || e)
+          );
+        }
+
+      }}
     >
       Restaurar Selecionado
     </button>
@@ -239,6 +282,10 @@ function BackupsPage() {
     </AppShell>
   );
 }
+
+
+
+
 
 
 
