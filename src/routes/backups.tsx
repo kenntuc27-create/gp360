@@ -2,13 +2,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import {
   listarBackups,
-  criarSnapshot,
-  criarSnapshotGit,
-  excluirBackup,
   listarTagsGit,
-  restaurarSnapshotGit
 } from "@/lib/backups.functions";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 export const Route = createFileRoute("/backups")({
   component: BackupsPage,
@@ -16,27 +12,74 @@ export const Route = createFileRoute("/backups")({
 
 function BackupsPage() {
 
-  const [backups, setBackups] = useState<any[]>([]);
-  const [tagsGit, setTagsGit] = useState<string[]>([]);
-  const [snapshotSelecionado, setSnapshotSelecionado] = useState("");
-const [backupLocalSelecionado, setBackupLocalSelecionado] = useState("");
+  const [tagsGit,setTagsGit] = useState<any[]>([]);
+  const [backups,setBackups] = useState<any[]>([]);
+  const [tipo,setTipo] = useState("Todos");
+  const [busca,setBusca] = useState("");
+  const [selecionado,setSelecionado] = useState<any>(null);
+
+  async function carregar(){
+
+    const tags =
+      await listarTagsGit();
+
+    const zips =
+      await listarBackups();
+
+    setTagsGit(tags || []);
+    setBackups(zips || []);
+
+  }
 
   useEffect(() => {
-
-    listarBackups()
-      .then((dados:any) => setBackups(dados || []))
-      .catch(console.error);
-
-    listarTagsGit()
-      .then((dados:any) => setTagsGit(dados || []))
-      .catch(console.error);
-
+    carregar();
   }, []);
 
-  const ultimoBackup =
-    backups.length > 0
-      ? new Date(backups[0].data).toLocaleString("pt-BR")
-      : "--";
+  const itens = useMemo(() => {
+
+    const git = (tagsGit || []).map((t:any) => ({
+      nome:t,
+      tipo:"GitHub",
+      data:"",
+      tamanho:"--"
+    }));
+
+    const zip = (backups || []).map((b:any) => ({
+      nome:b.nome,
+      tipo:"Local",
+      data:b.data || "",
+      tamanho:(b.tamanho || "--") + " MB"
+    }));
+
+    let dados = [...git,...zip];
+
+    if(tipo !== "Todos"){
+      dados =
+        dados.filter(
+          x => x.tipo === tipo
+        );
+    }
+
+    if(busca){
+      dados =
+        dados.filter(
+          x =>
+            x.nome
+             .toLowerCase()
+             .includes(
+               busca.toLowerCase()
+             )
+        );
+    }
+
+    return dados;
+
+  },[
+    tagsGit,
+    backups,
+    tipo,
+    busca
+  ]);
 
   return (
     <AppShell title="Backups 3K360">
@@ -47,233 +90,123 @@ const [backupLocalSelecionado, setBackupLocalSelecionado] = useState("");
           Backups 3K360
         </h1>
 
-        <p className="mt-2 opacity-70">
-          Central de snapshots e restauração
-        </p>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6">
 
-        <button
-          onClick={async () => {
+          <select
+            value={tipo}
+            onChange={(e)=>setTipo(e.target.value)}
+            className="border rounded p-2"
+          >
+            <option>Todos</option>
+            <option>GitHub</option>
+            <option>Local</option>
+          </select>
 
-            try {
+          <input
+            value={busca}
+            onChange={(e)=>setBusca(e.target.value)}
+            placeholder="Pesquisar..."
+            className="border rounded p-2"
+          />
 
-              await criarSnapshotGit();
-              await criarSnapshot();
+          <button
+            onClick={carregar}
+            className="border rounded p-2"
+          >
+            Atualizar
+          </button>
 
-              const tags = await listarTagsGit();
-              setTagsGit(tags || []);
-
-              const dados = await listarBackups();
-              setBackups(dados || []);
-
-              alert("Snapshot criado com sucesso");
-
-            } catch (e:any) {
-
-              console.error(e);
-              alert("Erro ao criar snapshot");
-
-            }
-          }}
-          className="mt-4 border rounded px-4 py-2 cursor-pointer hover:opacity-80 transition-all"
-        >
-          Criar Snapshot
-        </button>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
-
-          <div className="border rounded-xl p-4">
-            <div className="text-sm opacity-70">
-              Snapshots GitHub
-            </div>
-
-            <div className="text-3xl font-bold">
-              {tagsGit.length}
-            </div>
-          </div>
-
-          <div className="border rounded-xl p-4">
-            <div className="text-sm opacity-70">
-              Arquivos Locais
-            </div>
-
-            <div className="text-3xl font-bold">
-              {backups.length}
-            </div>
-          </div>
-
-          <div className="border rounded-xl p-4">
-            <div className="text-sm opacity-70">
-              Último Backup
-            </div>
-
-            <div className="font-semibold">
-              {ultimoBackup}
-            </div>
+          <div className="border rounded p-2 flex items-center justify-center">
+            {itens.length} registros
           </div>
 
         </div>
 
-        <div className="mt-10">
+        <div className="border rounded-xl mt-6 overflow-hidden">
 
-          <h2 className="text-xl font-bold mb-4">
-            Snapshots GitHub
-          </h2>
+          <table className="w-full">
 
-          <div className="space-y-3">
+            <thead className="border-b">
 
-  <div className="border rounded-xl p-4 mb-4 bg-muted/20">
+              <tr>
 
-    <div className="text-sm opacity-70">
-      Snapshot Selecionado
-    </div>
+                <th className="text-left p-3">
+                  Sel.
+                </th>
 
-    <div className="text-lg font-semibold mt-2">
-      {snapshotSelecionado || "Nenhum snapshot selecionado"}
-    </div>
+                <th className="text-left p-3">
+                  Nome
+                </th>
 
-    <button
-      disabled={!snapshotSelecionado}
-      className="mt-4 border rounded px-4 py-2 cursor-pointer hover:opacity-80 transition-all"
-      onClick={async () => {
+                <th className="text-left p-3">
+                  Tipo
+                </th>
 
-        if(!snapshotSelecionado){
-          alert("Selecione um snapshot");
-          return;
-        }
+                <th className="text-left p-3">
+                  Data
+                </th>
 
-        const ok = confirm(
-          "CONFIRMAR RESTAURAÇÃO?\n\n" +
-          "Snapshot:\n" +
-          snapshotSelecionado +
-          "\n\nSerá criado um backup automático antes da restauração."
-        );
+                <th className="text-left p-3">
+                  Tamanho
+                </th>
 
-        if(!ok) return;
+              </tr>
 
-        try{
+            </thead>
 
-          await criarSnapshotGit();
-          await criarSnapshot();
+            <tbody>
 
-          await restaurarSnapshotGit({
-            data:{
-              tag:snapshotSelecionado
-            }
-          });
+              {itens.map((item,i)=>(
 
-          alert(
-            "Restauração concluída:\n\n" +
-            snapshotSelecionado
-          );
+                <tr
+                  key={i}
+                  onClick={() =>
+                    setSelecionado(item)
+                  }
+                  className="cursor-pointer border-b hover:bg-muted/20"
+                >
 
-        }catch(e:any){
+                  <td className="p-3">
+                    {selecionado?.nome === item.nome ? "●" : "○"}
+                  </td>
 
-          console.error(e);
+                  <td className="p-3">
+                    {item.nome}
+                  </td>
 
-          alert(
-            "Erro na restauração:\n\n" +
-            (e?.message || e)
-          );
-        }
+                  <td className="p-3">
+                    {item.tipo}
+                  </td>
 
-      }}
-    >
-      Restaurar Selecionado
-    </button>
+                  <td className="p-3">
+                    {item.data
+                      ? new Date(item.data)
+                          .toLocaleString("pt-BR")
+                      : "--"}
+                  </td>
 
-  </div>
+                  <td className="p-3">
+                    {item.tamanho}
+                  </td>
 
-            {tagsGit.map((tag, i) => (
+                </tr>
 
-              <div
-                key={i}
-                className="border rounded-xl p-4 flex items-center justify-between"
-              >
-                <div className="flex items-center gap-3">
-                  <input
-                    type="radio"
-                    name="snapshotGit"
-                    checked={snapshotSelecionado === tag}
-                    onChange={() => setSnapshotSelecionado(tag)}
-                  />
-                  <span>{tag}</span>
-                </div>
+              ))}
 
+            </tbody>
 
-
-              </div>
-
-            ))}
-
-          </div>
+          </table>
 
         </div>
 
-        <div className="mt-10">
+        <div className="mt-6 border rounded-xl p-4">
 
-          <h2 className="text-xl font-bold mb-4">
-            Arquivos Locais
-          </h2>
+          <div className="text-sm opacity-70">
+            Selecionado
+          </div>
 
-          <div className="space-y-4">
-
-            {backups.map((b, i) => (
-
-              <div
-                key={i}
-                className="border rounded-xl p-4"
-              >
-                <div className="font-semibold">
-                  {b.nome}
-                </div>
-
-                <div className="text-sm opacity-70">
-                  {b.tamanho} MB
-                </div>
-
-                <div className="text-sm opacity-70">
-                  {new Date(b.data).toLocaleString("pt-BR")}
-                </div>
-
-                <div className="mt-3 flex gap-2">
-
-                  <a
-                    href={"/backups/snapshots/" + b.nome}
-                    target="_blank"
-                    className="border rounded px-3 py-1 cursor-pointer hover:opacity-80 transition-all"
-                  >
-                    Download
-                  </a>
-
-                  <button
-                    onClick={async () => {
-
-                      if (!confirm(`Excluir ${b.nome}?`))
-                        return;
-
-                      await excluirBackup({
-                        data: {
-                          nome: b.nome
-                        }
-                      });
-
-                      const dados =
-                        await listarBackups();
-
-                      setBackups(dados || []);
-
-                    }}
-                    className="border rounded px-3 py-1 text-red-500"
-                  >
-                    Excluir
-                  </button>
-
-                </div>
-
-              </div>
-
-            ))}
-
+          <div className="font-semibold mt-2">
+            {selecionado?.nome || "Nenhum item selecionado"}
           </div>
 
         </div>
@@ -283,25 +216,4 @@ const [backupLocalSelecionado, setBackupLocalSelecionado] = useState("");
     </AppShell>
   );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

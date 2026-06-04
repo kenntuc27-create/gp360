@@ -17,6 +17,7 @@ import { Route as IaGp360RouteImport } from './routes/ia-gp360'
 import { Route as HistoricoRouteImport } from './routes/historico'
 import { Route as FornecedoresRouteImport } from './routes/fornecedores'
 import { Route as ConfiguracoesRouteImport } from './routes/configuracoes'
+import { Route as Backups_v2RouteImport } from './routes/backups_v2'
 import { Route as BackupsRouteImport } from './routes/backups'
 import { Route as AuditoriaRouteImport } from './routes/auditoria'
 import { Route as IndexRouteImport } from './routes/index'
@@ -37,9 +38,11 @@ import { Route as EquipeAdminRouteImport } from './routes/equipe.admin'
 import { Route as EquipeAdesaoRouteImport } from './routes/equipe.adesao'
 import { Route as EditalIdRouteImport } from './routes/edital.$id'
 import { Route as CentralIdRouteImport } from './routes/central.$id'
+import { Route as BackupsV2_BASERouteImport } from './routes/backups.V2_BASE'
 import { Route as BackupsLAYOUT_EXECUTIVO_BACKUPRouteImport } from './routes/backups.LAYOUT_EXECUTIVO_BACKUP'
 import { Route as BackupsLAYOUT_ANTESRouteImport } from './routes/backups.LAYOUT_ANTES'
 import { Route as BackupsEXECUTIVO_ANTESRouteImport } from './routes/backups.EXECUTIVO_ANTES'
+import { Route as BackupsANTES_TABELA_FINALRouteImport } from './routes/backups.ANTES_TABELA_FINAL'
 import { Route as BackupsANTES_LAYOUT_EXECUTIVORouteImport } from './routes/backups.ANTES_LAYOUT_EXECUTIVO'
 import { Route as EquipeAtasIndexRouteImport } from './routes/equipe.atas.index'
 import { Route as EquipeAtasNovaRouteImport } from './routes/equipe.atas.nova'
@@ -87,6 +90,11 @@ const FornecedoresRoute = FornecedoresRouteImport.update({
 const ConfiguracoesRoute = ConfiguracoesRouteImport.update({
   id: '/configuracoes',
   path: '/configuracoes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const Backups_v2Route = Backups_v2RouteImport.update({
+  id: '/backups_v2',
+  path: '/backups_v2',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BackupsRoute = BackupsRouteImport.update({
@@ -189,6 +197,11 @@ const CentralIdRoute = CentralIdRouteImport.update({
   path: '/central/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BackupsV2_BASERoute = BackupsV2_BASERouteImport.update({
+  id: '/V2_BASE',
+  path: '/V2_BASE',
+  getParentRoute: () => BackupsRoute,
+} as any)
 const BackupsLAYOUT_EXECUTIVO_BACKUPRoute =
   BackupsLAYOUT_EXECUTIVO_BACKUPRouteImport.update({
     id: '/LAYOUT_EXECUTIVO_BACKUP',
@@ -205,6 +218,12 @@ const BackupsEXECUTIVO_ANTESRoute = BackupsEXECUTIVO_ANTESRouteImport.update({
   path: '/EXECUTIVO_ANTES',
   getParentRoute: () => BackupsRoute,
 } as any)
+const BackupsANTES_TABELA_FINALRoute =
+  BackupsANTES_TABELA_FINALRouteImport.update({
+    id: '/ANTES_TABELA_FINAL',
+    path: '/ANTES_TABELA_FINAL',
+    getParentRoute: () => BackupsRoute,
+  } as any)
 const BackupsANTES_LAYOUT_EXECUTIVORoute =
   BackupsANTES_LAYOUT_EXECUTIVORouteImport.update({
     id: '/ANTES_LAYOUT_EXECUTIVO',
@@ -252,6 +271,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auditoria': typeof AuditoriaRoute
   '/backups': typeof BackupsRouteWithChildren
+  '/backups_v2': typeof Backups_v2Route
   '/configuracoes': typeof ConfiguracoesRoute
   '/fornecedores': typeof FornecedoresRoute
   '/historico': typeof HistoricoRoute
@@ -261,9 +281,11 @@ export interface FileRoutesByFullPath {
   '/trocar-senha': typeof TrocarSenhaRoute
   '/usuarios': typeof UsuariosRoute
   '/backups/ANTES_LAYOUT_EXECUTIVO': typeof BackupsANTES_LAYOUT_EXECUTIVORoute
+  '/backups/ANTES_TABELA_FINAL': typeof BackupsANTES_TABELA_FINALRoute
   '/backups/EXECUTIVO_ANTES': typeof BackupsEXECUTIVO_ANTESRoute
   '/backups/LAYOUT_ANTES': typeof BackupsLAYOUT_ANTESRoute
   '/backups/LAYOUT_EXECUTIVO_BACKUP': typeof BackupsLAYOUT_EXECUTIVO_BACKUPRoute
+  '/backups/V2_BASE': typeof BackupsV2_BASERoute
   '/central/$id': typeof CentralIdRoute
   '/edital/$id': typeof EditalIdRouteWithChildren
   '/equipe/adesao': typeof EquipeAdesaoRoute
@@ -293,6 +315,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auditoria': typeof AuditoriaRoute
   '/backups': typeof BackupsRouteWithChildren
+  '/backups_v2': typeof Backups_v2Route
   '/configuracoes': typeof ConfiguracoesRoute
   '/fornecedores': typeof FornecedoresRoute
   '/historico': typeof HistoricoRoute
@@ -302,9 +325,11 @@ export interface FileRoutesByTo {
   '/trocar-senha': typeof TrocarSenhaRoute
   '/usuarios': typeof UsuariosRoute
   '/backups/ANTES_LAYOUT_EXECUTIVO': typeof BackupsANTES_LAYOUT_EXECUTIVORoute
+  '/backups/ANTES_TABELA_FINAL': typeof BackupsANTES_TABELA_FINALRoute
   '/backups/EXECUTIVO_ANTES': typeof BackupsEXECUTIVO_ANTESRoute
   '/backups/LAYOUT_ANTES': typeof BackupsLAYOUT_ANTESRoute
   '/backups/LAYOUT_EXECUTIVO_BACKUP': typeof BackupsLAYOUT_EXECUTIVO_BACKUPRoute
+  '/backups/V2_BASE': typeof BackupsV2_BASERoute
   '/central/$id': typeof CentralIdRoute
   '/edital/$id': typeof EditalIdRouteWithChildren
   '/equipe/adesao': typeof EquipeAdesaoRoute
@@ -334,6 +359,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/auditoria': typeof AuditoriaRoute
   '/backups': typeof BackupsRouteWithChildren
+  '/backups_v2': typeof Backups_v2Route
   '/configuracoes': typeof ConfiguracoesRoute
   '/fornecedores': typeof FornecedoresRoute
   '/historico': typeof HistoricoRoute
@@ -343,9 +369,11 @@ export interface FileRoutesById {
   '/trocar-senha': typeof TrocarSenhaRoute
   '/usuarios': typeof UsuariosRoute
   '/backups/ANTES_LAYOUT_EXECUTIVO': typeof BackupsANTES_LAYOUT_EXECUTIVORoute
+  '/backups/ANTES_TABELA_FINAL': typeof BackupsANTES_TABELA_FINALRoute
   '/backups/EXECUTIVO_ANTES': typeof BackupsEXECUTIVO_ANTESRoute
   '/backups/LAYOUT_ANTES': typeof BackupsLAYOUT_ANTESRoute
   '/backups/LAYOUT_EXECUTIVO_BACKUP': typeof BackupsLAYOUT_EXECUTIVO_BACKUPRoute
+  '/backups/V2_BASE': typeof BackupsV2_BASERoute
   '/central/$id': typeof CentralIdRoute
   '/edital/$id': typeof EditalIdRouteWithChildren
   '/equipe/adesao': typeof EquipeAdesaoRoute
@@ -377,6 +405,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auditoria'
     | '/backups'
+    | '/backups_v2'
     | '/configuracoes'
     | '/fornecedores'
     | '/historico'
@@ -386,9 +415,11 @@ export interface FileRouteTypes {
     | '/trocar-senha'
     | '/usuarios'
     | '/backups/ANTES_LAYOUT_EXECUTIVO'
+    | '/backups/ANTES_TABELA_FINAL'
     | '/backups/EXECUTIVO_ANTES'
     | '/backups/LAYOUT_ANTES'
     | '/backups/LAYOUT_EXECUTIVO_BACKUP'
+    | '/backups/V2_BASE'
     | '/central/$id'
     | '/edital/$id'
     | '/equipe/adesao'
@@ -418,6 +449,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auditoria'
     | '/backups'
+    | '/backups_v2'
     | '/configuracoes'
     | '/fornecedores'
     | '/historico'
@@ -427,9 +459,11 @@ export interface FileRouteTypes {
     | '/trocar-senha'
     | '/usuarios'
     | '/backups/ANTES_LAYOUT_EXECUTIVO'
+    | '/backups/ANTES_TABELA_FINAL'
     | '/backups/EXECUTIVO_ANTES'
     | '/backups/LAYOUT_ANTES'
     | '/backups/LAYOUT_EXECUTIVO_BACKUP'
+    | '/backups/V2_BASE'
     | '/central/$id'
     | '/edital/$id'
     | '/equipe/adesao'
@@ -458,6 +492,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auditoria'
     | '/backups'
+    | '/backups_v2'
     | '/configuracoes'
     | '/fornecedores'
     | '/historico'
@@ -467,9 +502,11 @@ export interface FileRouteTypes {
     | '/trocar-senha'
     | '/usuarios'
     | '/backups/ANTES_LAYOUT_EXECUTIVO'
+    | '/backups/ANTES_TABELA_FINAL'
     | '/backups/EXECUTIVO_ANTES'
     | '/backups/LAYOUT_ANTES'
     | '/backups/LAYOUT_EXECUTIVO_BACKUP'
+    | '/backups/V2_BASE'
     | '/central/$id'
     | '/edital/$id'
     | '/equipe/adesao'
@@ -500,6 +537,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuditoriaRoute: typeof AuditoriaRoute
   BackupsRoute: typeof BackupsRouteWithChildren
+  Backups_v2Route: typeof Backups_v2Route
   ConfiguracoesRoute: typeof ConfiguracoesRoute
   FornecedoresRoute: typeof FornecedoresRoute
   HistoricoRoute: typeof HistoricoRoute
@@ -585,6 +623,13 @@ declare module '@tanstack/react-router' {
       path: '/configuracoes'
       fullPath: '/configuracoes'
       preLoaderRoute: typeof ConfiguracoesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/backups_v2': {
+      id: '/backups_v2'
+      path: '/backups_v2'
+      fullPath: '/backups_v2'
+      preLoaderRoute: typeof Backups_v2RouteImport
       parentRoute: typeof rootRouteImport
     }
     '/backups': {
@@ -727,6 +772,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CentralIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/backups/V2_BASE': {
+      id: '/backups/V2_BASE'
+      path: '/V2_BASE'
+      fullPath: '/backups/V2_BASE'
+      preLoaderRoute: typeof BackupsV2_BASERouteImport
+      parentRoute: typeof BackupsRoute
+    }
     '/backups/LAYOUT_EXECUTIVO_BACKUP': {
       id: '/backups/LAYOUT_EXECUTIVO_BACKUP'
       path: '/LAYOUT_EXECUTIVO_BACKUP'
@@ -746,6 +798,13 @@ declare module '@tanstack/react-router' {
       path: '/EXECUTIVO_ANTES'
       fullPath: '/backups/EXECUTIVO_ANTES'
       preLoaderRoute: typeof BackupsEXECUTIVO_ANTESRouteImport
+      parentRoute: typeof BackupsRoute
+    }
+    '/backups/ANTES_TABELA_FINAL': {
+      id: '/backups/ANTES_TABELA_FINAL'
+      path: '/ANTES_TABELA_FINAL'
+      fullPath: '/backups/ANTES_TABELA_FINAL'
+      preLoaderRoute: typeof BackupsANTES_TABELA_FINALRouteImport
       parentRoute: typeof BackupsRoute
     }
     '/backups/ANTES_LAYOUT_EXECUTIVO': {
@@ -809,16 +868,20 @@ declare module '@tanstack/react-router' {
 
 interface BackupsRouteChildren {
   BackupsANTES_LAYOUT_EXECUTIVORoute: typeof BackupsANTES_LAYOUT_EXECUTIVORoute
+  BackupsANTES_TABELA_FINALRoute: typeof BackupsANTES_TABELA_FINALRoute
   BackupsEXECUTIVO_ANTESRoute: typeof BackupsEXECUTIVO_ANTESRoute
   BackupsLAYOUT_ANTESRoute: typeof BackupsLAYOUT_ANTESRoute
   BackupsLAYOUT_EXECUTIVO_BACKUPRoute: typeof BackupsLAYOUT_EXECUTIVO_BACKUPRoute
+  BackupsV2_BASERoute: typeof BackupsV2_BASERoute
 }
 
 const BackupsRouteChildren: BackupsRouteChildren = {
   BackupsANTES_LAYOUT_EXECUTIVORoute: BackupsANTES_LAYOUT_EXECUTIVORoute,
+  BackupsANTES_TABELA_FINALRoute: BackupsANTES_TABELA_FINALRoute,
   BackupsEXECUTIVO_ANTESRoute: BackupsEXECUTIVO_ANTESRoute,
   BackupsLAYOUT_ANTESRoute: BackupsLAYOUT_ANTESRoute,
   BackupsLAYOUT_EXECUTIVO_BACKUPRoute: BackupsLAYOUT_EXECUTIVO_BACKUPRoute,
+  BackupsV2_BASERoute: BackupsV2_BASERoute,
 }
 
 const BackupsRouteWithChildren =
@@ -858,6 +921,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuditoriaRoute: AuditoriaRoute,
   BackupsRoute: BackupsRouteWithChildren,
+  Backups_v2Route: Backups_v2Route,
   ConfiguracoesRoute: ConfiguracoesRoute,
   FornecedoresRoute: FornecedoresRoute,
   HistoricoRoute: HistoricoRoute,

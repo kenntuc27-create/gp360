@@ -1,0 +1,55 @@
+﻿PROJETO: GP3K
+
+REPOSITORIO:
+https://github.com/kenntuc27-create/gp360
+
+TAG ATUAL:
+TROCA_DE_COMPUTADOR_20260604
+
+ESTADO ATUAL:
+
+MODULO BACKUPS
+
+✓ Tela V2 ativa
+✓ Dados reais carregando
+✓ Filtro funcionando
+✓ GitHub funcionando
+✓ ZIP funcionando
+✓ Política de retenção aplicada
+✓ 20 snapshots GitHub
+✓ 20 backups ZIP
+✓ Build OK
+
+ULTIMA TELA:
+
+Tabela unificada funcionando.
+Filtro Local funcionando.
+Datas corrigidas.
+Seleção ainda não finalizada.
+
+PROXIMAS ETAPAS:
+
+1. Misturar GitHub + Local na mesma tabela
+2. Destacar linha selecionada
+3. Botão Restaurar
+4. Botão Download
+5. Botão Excluir
+6. Paginação
+7. Ordenação
+
+ARQUIVO PRINCIPAL:
+
+C:\GP3K\src\routes\backups.tsx
+
+BACKUPS IMPORTANTES:
+
+ANTES_DADOS_REAIS_BACKUPS
+ANTES_TABELA_UNIFICADA
+BACKUPS_UI_BASE_ESTAVEL
+ANTES_REORGANIZAR_BACKUPS
+RESTORE_GITHUB_VALIDADO
+
+OBSERVACAO:
+
+Não editar arquivos manualmente.
+Todas as alterações devem ser feitas por comandos PowerShell.
