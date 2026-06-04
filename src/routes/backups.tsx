@@ -19,6 +19,7 @@ function BackupsPage() {
   const [backups, setBackups] = useState<any[]>([]);
   const [tagsGit, setTagsGit] = useState<string[]>([]);
   const [snapshotSelecionado, setSnapshotSelecionado] = useState("");
+const [backupLocalSelecionado, setBackupLocalSelecionado] = useState("");
 
   useEffect(() => {
 
@@ -282,6 +283,11 @@ function BackupsPage() {
     </AppShell>
   );
 }
+
+
+
+
+
 
 
 
