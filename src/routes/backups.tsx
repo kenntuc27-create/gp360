@@ -5,7 +5,8 @@ import {
   criarSnapshot,
   criarSnapshotGit,
   excluirBackup,
-  listarTagsGit
+  listarTagsGit,
+  restaurarSnapshotGit
 } from "@/lib/backups.functions";
 import { useEffect, useState } from "react";
 
@@ -238,6 +239,8 @@ function BackupsPage() {
     </AppShell>
   );
 }
+
+
 
 
 
