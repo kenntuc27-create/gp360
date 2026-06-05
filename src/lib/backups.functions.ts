@@ -87,19 +87,33 @@ export const listarTagsGit = createServerFn({
   method: "GET",
 }).handler(async () => {
   try {
+
     const tags = execSync(
-      "git tag --sort=-creatordate",
+      'git for-each-ref refs/tags --sort=-creatordate --format="%(refname:short)|%(creatordate:iso)"',
       {
         encoding: "utf8",
         cwd: "C:/GP3K",
       }
     )
       .split(/\r?\n/)
-      .filter(Boolean);
+      .filter(Boolean)
+      .map((linha) => {
+
+        const [nome,data] = linha.split("|");
+
+        return {
+          nome,
+          data
+        };
+
+      });
 
     return tags;
+
   } catch {
+
     return [];
+
   }
 });
 
@@ -184,3 +198,6 @@ export const restaurarSnapshotGit = createServerFn({
     tag: data.tag
   };
 });
+
+
+
