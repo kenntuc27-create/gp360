@@ -164,11 +164,20 @@ useState("desc");
           </button>
 
           <button
-            className="border rounded p-2 bg-blue-700 text-white"
+            onClick={async()=>{
+              try{
+                await criarSnapshotGit();
+                await carregar();
+                alert("Snapshot criado com sucesso");
+              }catch(e){
+                console.error(e);
+                alert("Erro ao criar snapshot");
+              }
+            }}
+            className="border rounded p-2 bg-blue-700 text-white cursor-pointer hover:opacity-80"
           >
             Novo Snapshot
           </button>
-
 
           <div className="border rounded p-2 flex items-center justify-center">
             {itens.length} registros
@@ -176,8 +185,7 @@ useState("desc");
 
         </div>
 
-                <div className="mt-6 border rounded-xl p-4 bg-muted/10">
-
+        <div className="mt-6 border rounded-xl p-4 bg-muted/10">
           <div className="text-sm opacity-70">
             Selecionado
           </div>
@@ -318,6 +326,8 @@ useState("desc");
     </AppShell>
   );
 }
+
+
 
 
 
