@@ -43,6 +43,7 @@ import { Route as BackupsLAYOUT_EXECUTIVO_BACKUPRouteImport } from './routes/bac
 import { Route as BackupsLAYOUT_ANTESRouteImport } from './routes/backups.LAYOUT_ANTES'
 import { Route as BackupsEXECUTIVO_ANTESRouteImport } from './routes/backups.EXECUTIVO_ANTES'
 import { Route as BackupsANTES_TABELA_FINALRouteImport } from './routes/backups.ANTES_TABELA_FINAL'
+import { Route as BackupsANTES_RESTAURAR_BOTOESRouteImport } from './routes/backups.ANTES_RESTAURAR_BOTOES'
 import { Route as BackupsANTES_MOVER_SELECIONADORouteImport } from './routes/backups.ANTES_MOVER_SELECIONADO'
 import { Route as BackupsANTES_LAYOUT_EXECUTIVORouteImport } from './routes/backups.ANTES_LAYOUT_EXECUTIVO'
 import { Route as EquipeAtasIndexRouteImport } from './routes/equipe.atas.index'
@@ -225,6 +226,12 @@ const BackupsANTES_TABELA_FINALRoute =
     path: '/ANTES_TABELA_FINAL',
     getParentRoute: () => BackupsRoute,
   } as any)
+const BackupsANTES_RESTAURAR_BOTOESRoute =
+  BackupsANTES_RESTAURAR_BOTOESRouteImport.update({
+    id: '/ANTES_RESTAURAR_BOTOES',
+    path: '/ANTES_RESTAURAR_BOTOES',
+    getParentRoute: () => BackupsRoute,
+  } as any)
 const BackupsANTES_MOVER_SELECIONADORoute =
   BackupsANTES_MOVER_SELECIONADORouteImport.update({
     id: '/ANTES_MOVER_SELECIONADO',
@@ -289,6 +296,7 @@ export interface FileRoutesByFullPath {
   '/usuarios': typeof UsuariosRoute
   '/backups/ANTES_LAYOUT_EXECUTIVO': typeof BackupsANTES_LAYOUT_EXECUTIVORoute
   '/backups/ANTES_MOVER_SELECIONADO': typeof BackupsANTES_MOVER_SELECIONADORoute
+  '/backups/ANTES_RESTAURAR_BOTOES': typeof BackupsANTES_RESTAURAR_BOTOESRoute
   '/backups/ANTES_TABELA_FINAL': typeof BackupsANTES_TABELA_FINALRoute
   '/backups/EXECUTIVO_ANTES': typeof BackupsEXECUTIVO_ANTESRoute
   '/backups/LAYOUT_ANTES': typeof BackupsLAYOUT_ANTESRoute
@@ -334,6 +342,7 @@ export interface FileRoutesByTo {
   '/usuarios': typeof UsuariosRoute
   '/backups/ANTES_LAYOUT_EXECUTIVO': typeof BackupsANTES_LAYOUT_EXECUTIVORoute
   '/backups/ANTES_MOVER_SELECIONADO': typeof BackupsANTES_MOVER_SELECIONADORoute
+  '/backups/ANTES_RESTAURAR_BOTOES': typeof BackupsANTES_RESTAURAR_BOTOESRoute
   '/backups/ANTES_TABELA_FINAL': typeof BackupsANTES_TABELA_FINALRoute
   '/backups/EXECUTIVO_ANTES': typeof BackupsEXECUTIVO_ANTESRoute
   '/backups/LAYOUT_ANTES': typeof BackupsLAYOUT_ANTESRoute
@@ -379,6 +388,7 @@ export interface FileRoutesById {
   '/usuarios': typeof UsuariosRoute
   '/backups/ANTES_LAYOUT_EXECUTIVO': typeof BackupsANTES_LAYOUT_EXECUTIVORoute
   '/backups/ANTES_MOVER_SELECIONADO': typeof BackupsANTES_MOVER_SELECIONADORoute
+  '/backups/ANTES_RESTAURAR_BOTOES': typeof BackupsANTES_RESTAURAR_BOTOESRoute
   '/backups/ANTES_TABELA_FINAL': typeof BackupsANTES_TABELA_FINALRoute
   '/backups/EXECUTIVO_ANTES': typeof BackupsEXECUTIVO_ANTESRoute
   '/backups/LAYOUT_ANTES': typeof BackupsLAYOUT_ANTESRoute
@@ -426,6 +436,7 @@ export interface FileRouteTypes {
     | '/usuarios'
     | '/backups/ANTES_LAYOUT_EXECUTIVO'
     | '/backups/ANTES_MOVER_SELECIONADO'
+    | '/backups/ANTES_RESTAURAR_BOTOES'
     | '/backups/ANTES_TABELA_FINAL'
     | '/backups/EXECUTIVO_ANTES'
     | '/backups/LAYOUT_ANTES'
@@ -471,6 +482,7 @@ export interface FileRouteTypes {
     | '/usuarios'
     | '/backups/ANTES_LAYOUT_EXECUTIVO'
     | '/backups/ANTES_MOVER_SELECIONADO'
+    | '/backups/ANTES_RESTAURAR_BOTOES'
     | '/backups/ANTES_TABELA_FINAL'
     | '/backups/EXECUTIVO_ANTES'
     | '/backups/LAYOUT_ANTES'
@@ -515,6 +527,7 @@ export interface FileRouteTypes {
     | '/usuarios'
     | '/backups/ANTES_LAYOUT_EXECUTIVO'
     | '/backups/ANTES_MOVER_SELECIONADO'
+    | '/backups/ANTES_RESTAURAR_BOTOES'
     | '/backups/ANTES_TABELA_FINAL'
     | '/backups/EXECUTIVO_ANTES'
     | '/backups/LAYOUT_ANTES'
@@ -820,6 +833,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BackupsANTES_TABELA_FINALRouteImport
       parentRoute: typeof BackupsRoute
     }
+    '/backups/ANTES_RESTAURAR_BOTOES': {
+      id: '/backups/ANTES_RESTAURAR_BOTOES'
+      path: '/ANTES_RESTAURAR_BOTOES'
+      fullPath: '/backups/ANTES_RESTAURAR_BOTOES'
+      preLoaderRoute: typeof BackupsANTES_RESTAURAR_BOTOESRouteImport
+      parentRoute: typeof BackupsRoute
+    }
     '/backups/ANTES_MOVER_SELECIONADO': {
       id: '/backups/ANTES_MOVER_SELECIONADO'
       path: '/ANTES_MOVER_SELECIONADO'
@@ -889,6 +909,7 @@ declare module '@tanstack/react-router' {
 interface BackupsRouteChildren {
   BackupsANTES_LAYOUT_EXECUTIVORoute: typeof BackupsANTES_LAYOUT_EXECUTIVORoute
   BackupsANTES_MOVER_SELECIONADORoute: typeof BackupsANTES_MOVER_SELECIONADORoute
+  BackupsANTES_RESTAURAR_BOTOESRoute: typeof BackupsANTES_RESTAURAR_BOTOESRoute
   BackupsANTES_TABELA_FINALRoute: typeof BackupsANTES_TABELA_FINALRoute
   BackupsEXECUTIVO_ANTESRoute: typeof BackupsEXECUTIVO_ANTESRoute
   BackupsLAYOUT_ANTESRoute: typeof BackupsLAYOUT_ANTESRoute
@@ -899,6 +920,7 @@ interface BackupsRouteChildren {
 const BackupsRouteChildren: BackupsRouteChildren = {
   BackupsANTES_LAYOUT_EXECUTIVORoute: BackupsANTES_LAYOUT_EXECUTIVORoute,
   BackupsANTES_MOVER_SELECIONADORoute: BackupsANTES_MOVER_SELECIONADORoute,
+  BackupsANTES_RESTAURAR_BOTOESRoute: BackupsANTES_RESTAURAR_BOTOESRoute,
   BackupsANTES_TABELA_FINALRoute: BackupsANTES_TABELA_FINALRoute,
   BackupsEXECUTIVO_ANTESRoute: BackupsEXECUTIVO_ANTESRoute,
   BackupsLAYOUT_ANTESRoute: BackupsLAYOUT_ANTESRoute,

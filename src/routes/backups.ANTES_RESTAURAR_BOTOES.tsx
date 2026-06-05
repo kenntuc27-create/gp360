@@ -7,7 +7,7 @@ import {
 import { useEffect, useMemo, useState } from "react";
 import { restaurarSnapshotGit } from "@/lib/backups.functions";
 
-export const Route = createFileRoute("/backups")({
+export const Route = createFileRoute("/backups/ANTES_RESTAURAR_BOTOES")({
   component: BackupsPage,
 });
 

@@ -3,12 +3,16 @@ import { createFileRoute } from "@tanstack/react-router";
 import {
   listarBackups,
   listarTagsGit,
+  criarSnapshot,
+  criarSnapshotGit,
+  excluirBackup,
+  restaurarSnapshotGit
 } from "@/lib/backups.functions";
 import { useEffect, useMemo, useState } from "react";
-import { restaurarSnapshotGit } from "@/lib/backups.functions";
 
 export const Route = createFileRoute("/backups")({
   component: BackupsPage,
+
 });
 
 function BackupsPage() {
@@ -314,6 +318,8 @@ useState("desc");
     </AppShell>
   );
 }
+
+
 
 
 
